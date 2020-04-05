@@ -1,0 +1,163 @@
+From d2994192faab69e5f8edf10c2d580eb0d4390171 Mon Sep 17 00:00:00 2001
+From: Jason <jason@jasonho.tk>
+Date: Sun, 5 Apr 2020 14:59:08 -0700
+Subject: [PATCH] Add methods for working with translations
+
+
+diff --git a/src/main/java/app/ashcon/sportpaper/api/text/translation/TranslatableComponent.java b/src/main/java/app/ashcon/sportpaper/api/text/translation/TranslatableComponent.java
+new file mode 100644
+index 00000000..212a3d10
+--- /dev/null
++++ b/src/main/java/app/ashcon/sportpaper/api/text/translation/TranslatableComponent.java
+@@ -0,0 +1,25 @@
++package app.ashcon.sportpaper.api.text.translation;
++
++import net.md_5.bungee.api.chat.BaseComponent;
++import org.bukkit.command.CommandSender;
++
++import java.util.Locale;
++
++public interface TranslatableComponent {
++
++    /**
++     * Translate this component into a {@link BaseComponent} in the specified {@link Locale}.
++     * @param locale locale to translate this component into
++     * @return the translated component
++     */
++    BaseComponent translate(Locale locale);
++
++    /**
++     * Translate this component into a {@link BaseComponent} using the {@link CommandSender}'s {@link Locale}
++     * @param viewer viewer to translate this component for
++     * @return the translated component
++     */
++    default BaseComponent translate(CommandSender viewer) {
++        return this.translate(viewer.getLocale());
++    }
++}
+diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
+index 9a92d97b..bebd1b57 100644
+--- a/src/main/java/org/bukkit/Bukkit.java
++++ b/src/main/java/org/bukkit/Bukkit.java
+@@ -13,6 +13,7 @@ import java.util.UUID;
+ import java.util.logging.Logger;
+ 
+ import app.ashcon.sportpaper.api.text.PersonalizedComponent;
++import app.ashcon.sportpaper.api.text.translation.TranslatableComponent;
+ import org.bukkit.Warning.WarningState;
+ import org.bukkit.command.CommandException;
+ import org.bukkit.command.CommandMap;
+@@ -1224,4 +1225,16 @@ public final class Bukkit {
+     {
+         return server.spigot();
+     }
++
++    // SportPaper start
++    /**
++     * Broadcasts a translatable component to all {@link Player}s using their {@link CommandSender#getLocale() locale}.
++     *
++     * @param translatable the translatable component
++     * @see Server#broadcast(TranslatableComponent)
++     */
++    public static void broadcast(TranslatableComponent translatable) {
++        server.broadcast(translatable);
++    }
++    // SportPaper end
+ }
+diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
+index c136cb6d..cb011cf3 100644
+--- a/src/main/java/org/bukkit/Server.java
++++ b/src/main/java/org/bukkit/Server.java
+@@ -15,6 +15,7 @@ import java.util.UUID;
+ import java.util.logging.Logger;
+ 
+ import app.ashcon.sportpaper.api.text.PersonalizedComponent;
++import app.ashcon.sportpaper.api.text.translation.TranslatableComponent;
+ import org.bukkit.Warning.WarningState;
+ import org.bukkit.command.CommandException;
+ import org.bukkit.command.CommandMap;
+@@ -1162,4 +1163,16 @@ public interface Server extends PluginMessageRecipient {
+     }
+ 
+     Spigot spigot();
++
++    // SportPaper start
++    /**
++     * Broadcasts a translatable component to all {@link Player}s.
++     *
++     * @param translatable the translatable component
++     */
++    default void broadcast(TranslatableComponent translatable) {
++        for (Player player : this.getOnlinePlayers()) {
++            player.sendMessage(translatable.translate(player.getLocale()));
++        }
++    }
+ }
+diff --git a/src/main/java/org/bukkit/command/CommandSender.java b/src/main/java/org/bukkit/command/CommandSender.java
+index eae8ddce..7d1b8895 100644
+--- a/src/main/java/org/bukkit/command/CommandSender.java
++++ b/src/main/java/org/bukkit/command/CommandSender.java
+@@ -2,6 +2,7 @@ package org.bukkit.command;
+ 
+ import java.util.Locale;
+ import app.ashcon.sportpaper.api.text.PersonalizedComponent;
++import app.ashcon.sportpaper.api.text.translation.TranslatableComponent;
+ import org.bukkit.Server;
+ import org.bukkit.permissions.Permissible;
+ 
+@@ -41,6 +42,17 @@ public interface CommandSender extends Permissible {
+      */
+     public String getName(CommandSender viewer);
+ 
++    // SportPaper start
++    /**
++     * Sends a translatable component to this command source using its {@link #getLocale() locale}.
++     *
++     * @param translatable the translatable component
++     */
++    default void sendMessage(TranslatableComponent translatable) {
++        this.sendMessage(translatable.translate(this.getLocale()));
++    }
++    // SportPaper end
++
+     // Paper start
+     /**
+      * Sends the component to the sender
+diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
+index 05c98d2e..30dd95ee 100644
+--- a/src/main/java/org/bukkit/entity/Player.java
++++ b/src/main/java/org/bukkit/entity/Player.java
+@@ -449,6 +449,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+      * @throws IllegalArgumentException if location is null
+      * @throws IllegalArgumentException if lines is non-null and has a length less than 4
+      */
++    @Deprecated // SportPaper
+     public void sendSignChange(Location loc, String[] lines) throws IllegalArgumentException;
+ 
+     /**
+@@ -502,6 +503,22 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+      */
+     public void sendMessage(net.md_5.bungee.api.chat.BaseComponent... components);
+ 
++    /**
++     * Sends an array of components as a single message to this player using the specified message type.
++     *
++     * @param type the component type/display position
++     * @param components the components to send
++     */
++    public void sendMessage(net.md_5.bungee.api.ChatMessageType type, net.md_5.bungee.api.chat.BaseComponent[] components);
++
++    /**
++     * Sends an array of components as a single message to this player using the specified message type.
++     *
++     * @param type the component type/display position
++     * @param components the components to send
++     */
++    public void sendMessage(net.md_5.bungee.api.ChatMessageType type, net.md_5.bungee.api.chat.BaseComponent components);
++
+     /**
+      * Set the text displayed in the player list header and footer for this player
+      *
+-- 
+2.17.1
+

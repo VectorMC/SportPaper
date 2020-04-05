@@ -1,0 +1,62 @@
+From 7d2f42e0c1dee90a8a456b88bbea4a3c285f5727 Mon Sep 17 00:00:00 2001
+From: Jason <jason@jasonho.tk>
+Date: Sun, 5 Apr 2020 14:59:37 -0700
+Subject: [PATCH] Add methods for wr working with translations
+
+
+diff --git a/src/main/java/net/minecraft/server/ChatModifier.java b/src/main/java/net/minecraft/server/ChatModifier.java
+index 21f7e6ba..46bfd31f 100644
+--- a/src/main/java/net/minecraft/server/ChatModifier.java
++++ b/src/main/java/net/minecraft/server/ChatModifier.java
+@@ -12,6 +12,18 @@ import java.lang.reflect.Type;
+ 
+ public class ChatModifier {
+ 
++    // SportPaper start - add raw getters
++    public EnumChatFormat getColorRaw() { return this.b; }
++    public Boolean isBoldRaw() { return this.c; }
++    public Boolean isItalicRaw() { return this.d; }
++    public Boolean isStrikethroughRaw() { return this.f; }
++    public Boolean isUnderlinedRaw() { return this.e; }
++    public Boolean isRandomRaw() { return this.g; }
++    public ChatClickable getClickableRaw() { return this.h; }
++    public ChatHoverable getHoverableRaw() { return this.i; }
++    public String getInsertionRaw() { return this.j; }
++    // SportPaper end
++
+     private ChatModifier a;
+     private EnumChatFormat b;
+     private Boolean c;
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+index 60c81cdc..97b6cdc3 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+@@ -204,6 +204,25 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         getHandle().playerConnection.sendPacket(packet);
+     }
+ 
++    // SportPaper start
++    @Override
++    public void sendMessage(net.md_5.bungee.api.ChatMessageType type, net.md_5.bungee.api.chat.BaseComponent component) {
++        this.sendMessage(type, new BaseComponent[] {component});
++    }
++
++    @Override
++    public void sendMessage(net.md_5.bungee.api.ChatMessageType type, net.md_5.bungee.api.chat.BaseComponent[] components) {
++        @javax.annotation.Nullable PlayerConnection connection = this.getHandle().playerConnection;
++        if (connection == null) {
++            return;
++        }
++
++        PacketPlayOutChat packet = new PacketPlayOutChat(null, (byte) type.ordinal());
++        packet.components = components;
++        connection.sendPacket(packet);
++    }
++    // SportPaper end
++
+     @Override
+     public void sendActionBar(BaseComponent baseComponent) {
+         sendActionBar(baseComponent.toLegacyText());
+-- 
+2.17.1
+
