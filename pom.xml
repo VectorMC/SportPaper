@@ -25,12 +25,12 @@
     </repositories>
     <distributionManagement>
         <repository>
-            <id>ashcon-releases</id>
-            <url>https://repo.ashcon.app/nexus/content/repositories/releases</url>
+            <id>vector-repo</id>
+            <url>https://repo.vectormc.net/artifactory/private</url>
         </repository>
         <snapshotRepository>
-            <id>ashcon-snapshots</id>
-            <url>https://repo.ashcon.app/nexus/content/repositories/snapshots</url>
+            <id>vector-repo</id>
+            <url>https://repo.vectormc.net/artifactory/private</url>
         </snapshotRepository>
     </distributionManagement>
     <modules>
