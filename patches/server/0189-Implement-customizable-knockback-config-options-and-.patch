@@ -1,4 +1,4 @@
-From ef797fabfea24949b4b7cb64594efcb97074abd1 Mon Sep 17 00:00:00 2001
+From caddc9e5dc3184769df7c9e046b8650d006ccdf7 Mon Sep 17 00:00:00 2001
 From: Rafi Baum <rafi@ukbaums.com>
 Date: Mon, 27 Apr 2020 18:25:50 -0400
 Subject: [PATCH] Implement customizable knockback config options and command
@@ -269,5 +269,5 @@ index 9360eac7..038137dc 100644
 +
  }
 -- 
-2.26.2
+2.25.1
 

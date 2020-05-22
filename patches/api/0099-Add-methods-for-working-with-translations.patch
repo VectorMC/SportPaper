@@ -1,4 +1,4 @@
-From d2994192faab69e5f8edf10c2d580eb0d4390171 Mon Sep 17 00:00:00 2001
+From 07c19265b91cf811924ffe8ea0bba8bd8cbf5943 Mon Sep 17 00:00:00 2001
 From: Jason <jason@jasonho.tk>
 Date: Sun, 5 Apr 2020 14:59:08 -0700
 Subject: [PATCH] Add methods for working with translations
@@ -6,7 +6,7 @@ Subject: [PATCH] Add methods for working with translations
 
 diff --git a/src/main/java/app/ashcon/sportpaper/api/text/translation/TranslatableComponent.java b/src/main/java/app/ashcon/sportpaper/api/text/translation/TranslatableComponent.java
 new file mode 100644
-index 00000000..212a3d10
+index 00000000..f9184e45
 --- /dev/null
 +++ b/src/main/java/app/ashcon/sportpaper/api/text/translation/TranslatableComponent.java
 @@ -0,0 +1,25 @@
@@ -159,5 +159,5 @@ index 05c98d2e..30dd95ee 100644
       * Set the text displayed in the player list header and footer for this player
       *
 -- 
-2.17.1
+2.25.1
 
