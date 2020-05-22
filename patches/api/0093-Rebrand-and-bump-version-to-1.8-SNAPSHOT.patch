@@ -1,19 +1,16 @@
-From 31a321c9809bcdef61f362177992ea5acf97563a Mon Sep 17 00:00:00 2001
+From 0a3166002ca1852d74ea57e1bcc62e0147406e0f Mon Sep 17 00:00:00 2001
 From: Ashcon Partovi <ashcon@partovi.net>
 Date: Sat, 27 Apr 2019 15:21:49 -0700
 Subject: [PATCH] Rebrand and bump version to 1.8-SNAPSHOT
 
 
 diff --git a/pom.xml b/pom.xml
-index 8a304559..6a3186d5 100644
+index 1d2b5b26..3013bfbd 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -4,9 +4,9 @@
-     <modelVersion>4.0.0</modelVersion>
- 
+@@ -5,7 +5,7 @@
      <parent>
--        <groupId>network.stratus</groupId>
-+        <groupId>app.ashcon</groupId>
+         <groupId>net.vectormc</groupId>
          <artifactId>sportpaper-parent</artifactId>
 -        <version>dev-1.8-SNAPSHOT</version>
 +        <version>1.8-SNAPSHOT</version>
@@ -112,5 +109,5 @@ index 6faad290..eae8ddce 100644
  import org.bukkit.permissions.Permissible;
  
 -- 
-2.20.1
+2.25.1
 
