@@ -1,11 +1,11 @@
-From 184ba5381f9462160ebfa22509c02c16d9d96a6a Mon Sep 17 00:00:00 2001
+From ecff978fc5fda39017f5972643ba9c8b7eefa3ef Mon Sep 17 00:00:00 2001
 From: Ashcon Partovi <ashcon@partovi.net>
 Date: Sat, 27 Apr 2019 15:28:42 -0700
 Subject: [PATCH] Rebrand and bump version to 1.8-SNAPSHOT
 
 
 diff --git a/pom.xml b/pom.xml
-index 7a3e0ac5..cefb0894 100644
+index 9cb08888..6b94af79 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -22,7 +22,7 @@
@@ -17,15 +17,6 @@ index 7a3e0ac5..cefb0894 100644
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-@@ -38,7 +38,7 @@
-             <version>3.0.3</version>
-         </dependency>
-         <dependency>
--            <groupId>network.stratus</groupId>
-+            <groupId>app.ashcon</groupId>
-             <artifactId>sportpaper-api</artifactId>
-             <version>${project.version}</version>
-             <type>jar</type>
 diff --git a/src/main/java/network/stratus/sportpaper/server/WorldGenSettingsManager.java b/src/main/java/app/ashcon/sportpaper/server/WorldGenSettingsManager.java
 similarity index 88%
 rename from src/main/java/network/stratus/sportpaper/server/WorldGenSettingsManager.java

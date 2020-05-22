@@ -1,4 +1,4 @@
-From 5a6b7f53f3796003cf48aeba488dfbe79c1713f7 Mon Sep 17 00:00:00 2001
+From 89e404525a0678d86cdc219af1c76cf23a014914 Mon Sep 17 00:00:00 2001
 From: Austin Mayes <austin@avicus.net>
 Date: Mon, 16 Oct 2017 11:45:28 -0500
 Subject: [PATCH] This is SportPaper
@@ -6,7 +6,7 @@ Subject: [PATCH] This is SportPaper
   Also includes some legacy mc-dev imports
 
 diff --git a/pom.xml b/pom.xml
-index 6aaba502..d04848fa 100644
+index 6aaba502..3cb10dda 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,12 +1,10 @@
@@ -43,7 +43,7 @@ index 6aaba502..d04848fa 100644
          <dependency>
 -            <groupId>org.github.paperspigot</groupId>
 -            <artifactId>paperspigot-api</artifactId>
-+            <groupId>network.stratus</groupId>
++            <groupId>net.vectormc</groupId>
 +            <artifactId>sportpaper-api</artifactId>
              <version>${project.version}</version>
              <type>jar</type>
